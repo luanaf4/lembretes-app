@@ -24,14 +24,6 @@ function validarCampos(nome, data) {
     return true;
 }
 
-// adiciona um novo lembrete à lista de lembretes
-function adicionarLembrete(nome, data) {
-    const lembrete = new Lembrete(nome, data);
-    lembretes.push(lembrete);
-    lembretes.sort((a, b) => new Date(a.data) - new Date(b.data));
-    atualizarLembretes();
-}
-
 // exclui um lembrete da lista de lembretes
 function excluirLembrete(index) {
     lembretes.splice(index, 1);
@@ -65,6 +57,13 @@ function atualizarLembretes() {
         container.appendChild(lembreteElement);
         lembretesContainer.appendChild(container);
     });
+}
+
+function adicionarLembrete(nome, data) {
+    const lembrete = new Lembrete(nome, data);
+    lembretes.push(lembrete);
+    lembretes.sort((a, b) => new Date(a.data) - new Date(b.data));
+    atualizarLembretes();
 }
 
 // evento de envio do formulário
