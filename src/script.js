@@ -28,6 +28,7 @@ function validarCampos(nome, data) {
 function adicionarLembrete(nome, data) {
     const lembrete = new Lembrete(nome, data);
     lembretes.push(lembrete);
+    lembretes.sort((a, b) => new Date(a.data) - new Date(b.data));
     atualizarLembretes();
 }
 
@@ -37,54 +38,31 @@ function excluirLembrete(index) {
     atualizarLembretes();
 }
 
-// agrupa os lembretes por data
-function agruparLembretesPorData() {
-    const agrupado = {};
-    lembretes.forEach((lembrete) => {
-        const data = lembrete.data;
-        if (agrupado[data]) {
-            agrupado[data].push(lembrete);
-        } else {
-            agrupado[data] = [lembrete];
-        }
-    });
-    return agrupado;
-}
-
 // exibe a lista de lembretes atualizada na página HTML
 function atualizarLembretes() {
-    // agrupa os lembretes por data
-    const agrupado = agruparLembretesPorData();
-
-    // ordena as datas em ordem crescente
-    const datasOrdenadas = Object.keys(agrupado).sort((a, b) => new Date(a) - new Date(b));
-
     // limpa o container de lembretes
     lembretesContainer.innerHTML = "";
 
-    // itera sobre as datas ordenadas e exibe os lembretes correspondentes
-    datasOrdenadas.forEach((data) => {
-        const lembretesDoDia = agrupado[data];
-        const dataFormatada = new Date(data).toLocaleDateString();
+    // itera sobre os lembretes em ordem cronológica e exibe cada um na data correspondente
+    lembretes.forEach((lembrete, index) => {
+        const dataFormatada = new Date(lembrete.data).toLocaleDateString();
         const container = document.createElement("div");
         container.classList.add("lembrete-container");
         const header = document.createElement("h2");
         header.innerText = dataFormatada;
         container.appendChild(header);
-        lembretesDoDia.forEach((lembrete, index) => {
-            const lembreteElement = document.createElement("div");
-            lembreteElement.classList.add("lembrete");
-            const nome = document.createElement("h3");
-            nome.innerText = lembrete.nome;
-            const excluirBotao = document.createElement("button");
-            excluirBotao.innerText = "Excluir";
-            excluirBotao.addEventListener("click", () => {
-                excluirLembrete(index);
-            });
-            lembreteElement.appendChild(nome);
-            lembreteElement.appendChild(excluirBotao);
-            container.appendChild(lembreteElement);
+        const lembreteElement = document.createElement("div");
+        lembreteElement.classList.add("lembrete");
+        const nome = document.createElement("h3");
+        nome.innerText = lembrete.nome;
+        const excluirBotao = document.createElement("button");
+        excluirBotao.innerText = "Excluir";
+        excluirBotao.addEventListener("click", () => {
+            excluirLembrete(index);
         });
+        lembreteElement.appendChild(nome);
+        lembreteElement.appendChild(excluirBotao);
+        container.appendChild(lembreteElement);
         lembretesContainer.appendChild(container);
     });
 }
@@ -99,15 +77,24 @@ form.addEventListener("submit", (e) => {
         form.reset();
     }
 });
-
-// inicializa a lista de lembretes a partir do armazenamento local (se existir)
-if (localStorage.getItem("lembretes")) {
-    lembretes = JSON.parse(localStorage.getItem("lembretes"));
-    atualizarLembretes();
+// inicializa a lista de lembretes a partir do armazenamento local
+function inicializarLembretes() {
+    const lembretesJSON = localStorage.getItem("lembretes");
+    if (lembretesJSON !== null) {
+        lembretes = JSON.parse(lembretesJSON);
+        atualizarLembretes();
+    }
 }
 
-// salva a lista de lembretes no armazenamento local sempre que houver uma atualização
-setInterval(() => {
+// salva a lista de lembretes no armazenamento local
+function salvarLembretes() {
     localStorage.setItem("lembretes", JSON.stringify(lembretes));
-}, 1000); // salva a cada segundo (para fins de demonstração)
+}
 
+// evento de fechamento da página
+window.addEventListener("beforeunload", () => {
+    salvarLembretes();
+});
+
+// inicializa a lista de lembretes
+inicializarLembretes();
