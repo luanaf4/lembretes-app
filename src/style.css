@@ -7,7 +7,6 @@
     --cor-fundo: #FFFFFF;
 }
 
-/* Estilos gerais */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -112,34 +111,6 @@ label {
 
 .lembrete__delete:hover {
     color: var(--cor-secundaria);
-}
-
-.dia {
-    width: 100px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    font-weight: bold;
-    border: 1px solid var(--cor-terciaria);
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.dia:hover {
-    background-color: var(--cor-terciaria);
-    color: var(--cor-fundo);
-}
-
-.dia--hoje {
-    background-color: var(--cor-primaria);
-    color: var(--cor-fundo);
-}
-
-.dia--selecionado {
-    background-color: var(--cor-secundaria);
-    color: var(--cor-fundo);
 }
 
 @media (max-width: 768px) {

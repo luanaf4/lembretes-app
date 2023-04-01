@@ -1,11 +1,11 @@
-//
+// lembretes e formulário
 const addForm = document.querySelector('#addForm');
 const lembretesContainer = document.querySelector('#lembretesContainer');
 
-// cria um objeto para manter as listas de lembretes por data
+// listas de lembretes
 const lembretesPorData = {};
 
-// adiciona um novo lembrete à lista
+// função para adicionar novo lembrete
 function addLembrete(nome, data) {
     // verifica se a data fornecida é futura
     const agora = new Date();
@@ -15,11 +15,10 @@ function addLembrete(nome, data) {
         return;
     }
 
-    // cria um novo elemento de lembrete
     const lembrete = document.createElement('div');
     lembrete.classList.add('lembrete');
 
-    // cria os elementos de nome e data do lembrete
+    // adiciona data e nome ao elemento
     const nomeElem = document.createElement('span');
     nomeElem.classList.add('lembrete__nome');
     nomeElem.textContent = nome;
@@ -27,7 +26,7 @@ function addLembrete(nome, data) {
     dataElem.classList.add('lembrete__data');
     dataElem.textContent = data;
 
-    // cria o botão de exclusão do lembrete
+    // botão para excluir lembrete
     const deleteButton = document.createElement('span');
     deleteButton.classList.add('lembrete__delete');
     deleteButton.innerHTML = '&times;';
@@ -40,12 +39,11 @@ function addLembrete(nome, data) {
         }
     });
 
-    // adiciona os elementos ao lembrete
     lembrete.appendChild(nomeElem);
     lembrete.appendChild(dataElem);
     lembrete.appendChild(deleteButton);
 
-    // encontra a lista de lembretes para a data fornecida, ou cria uma nova
+    // cria uma lista nova ou adiciona o lembrete à uma lista que já existe
     let lembretesParaData = lembretesPorData[data];
     if (!lembretesParaData) {
         lembretesParaData = document.createElement('div');
@@ -54,7 +52,7 @@ function addLembrete(nome, data) {
         dataHeader.textContent = data;
         lembretesParaData.appendChild(dataHeader);
         lembretesPorData[data] = lembretesParaData;
-        // insere a nova lista de lembretes na ordem correta
+        // insere a nova lista de lembretes em ordem cronológica
         let listaExistente = lembretesContainer.firstChild;
         while (listaExistente && new Date(listaExistente.querySelector('.lembrete__data').textContent) < dataLembrete) {
             listaExistente = listaExistente.nextSibling;
@@ -67,7 +65,7 @@ function addLembrete(nome, data) {
 }
 
 
-// lida com a submissão do formulário de adição de lembrete
+// submissão do forulário de adição de lembrete
 addForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const nome = event.target.nome.value;
