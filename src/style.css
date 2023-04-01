@@ -33,7 +33,7 @@ h1 {
 }
 
 h2 {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
 }
@@ -68,7 +68,6 @@ label {
     margin-bottom: 5px;
 }
 
-/* Estilos específicos */
 .form {
     border: 1px solid var(--cor-terciaria);
     padding: 20px;
