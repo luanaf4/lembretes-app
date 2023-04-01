@@ -10,4 +10,5 @@
 
 **Instruções para executar o sistema**
 1- Clonar o repositório do GitHub (URL: https://github.com/luanaf4/lembretes-app.git).
+
 2- Ao abrir a pasta, executar o arquivo index.html em seu navegador.
