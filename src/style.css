@@ -101,7 +101,8 @@ label {
 }
 
 .lembrete__data {
-    font-size: 12px;
+    font-size: 18px;
+    text-align: center;
 }
 
 .lembrete__delete {
