@@ -113,9 +113,8 @@ label {
     color: var(--cor-secundaria);
 }
 
+/* atualização responsividade */
 @media (max-width: 768px) {
-
-    /* adjust container width and padding */
     .container,
     input[type="text"],
     input[type="date"], button {
