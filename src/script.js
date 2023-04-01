@@ -7,6 +7,7 @@ let lembretes = [];
 function Lembrete(nome, data) {
     this.nome = nome;
     this.data = data;
+    this.lembretesNoDia = [];
 }
 
 // valida os campos do formulário
@@ -36,35 +37,52 @@ function atualizarLembretes() {
     lembretesContainer.innerHTML = "";
 
     // itera sobre os lembretes em ordem cronológica e exibe cada um na data correspondente
-    lembretes.forEach((lembrete, index) => {
+    lembretes.forEach((lembrete) => {
         const dataFormatada = new Date(lembrete.data).toLocaleDateString();
         const container = document.createElement("div");
         container.classList.add("lembrete-container");
         const header = document.createElement("h2");
         header.innerText = dataFormatada;
         container.appendChild(header);
-        const lembreteElement = document.createElement("div");
-        lembreteElement.classList.add("lembrete");
-        const nome = document.createElement("h3");
-        nome.innerText = lembrete.nome;
-        const excluirBotao = document.createElement("button");
-        excluirBotao.innerText = "Excluir";
-        excluirBotao.addEventListener("click", () => {
-            excluirLembrete(index);
+
+        lembrete.lembretesNoDia.forEach((item) => {
+            const lembreteElement = document.createElement("div");
+            lembreteElement.classList.add("lembrete");
+            const nome = document.createElement("h3");
+            nome.innerText = item.nome;
+            const excluirBotao = document.createElement("button");
+            excluirBotao.innerText = "Excluir";
+            excluirBotao.addEventListener("click", () => {
+                const index = lembrete.lembretesNoDia.indexOf(item);
+                lembrete.lembretesNoDia.splice(index, 1);
+                atualizarLembretes();
+            });
+            lembreteElement.appendChild(nome);
+            lembreteElement.appendChild(excluirBotao);
+            container.appendChild(lembreteElement);
         });
-        lembreteElement.appendChild(nome);
-        lembreteElement.appendChild(excluirBotao);
-        container.appendChild(lembreteElement);
+
         lembretesContainer.appendChild(container);
     });
 }
 
+
+// adiciona um novo lembrete à lista de lembretes
 function adicionarLembrete(nome, data) {
-    const lembrete = new Lembrete(nome, data);
-    lembretes.push(lembrete);
+    const lembrete = lembretes.find(l => l.data === data);
+
+    if (lembrete) {
+        lembrete.lembretesNoDia.push({ nome });
+    } else {
+        const novoLembrete = new Lembrete(nome, data);
+        novoLembrete.lembretesNoDia.push({ nome });
+        lembretes.push(novoLembrete);
+    }
+
     lembretes.sort((a, b) => new Date(a.data) - new Date(b.data));
     atualizarLembretes();
 }
+
 
 // evento de envio do formulário
 form.addEventListener("submit", (e) => {
