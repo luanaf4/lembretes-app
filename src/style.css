@@ -101,8 +101,7 @@ label {
 }
 
 .lembrete__data {
-    font-size: 18px;
-    text-align: center;
+    font-size: 0px;
 }
 
 .lembrete__delete {
@@ -114,16 +113,6 @@ label {
 
 .lembrete__delete:hover {
     color: var(--cor-secundaria);
-}
-
-.calendario {
-    margin-top: 20px;
-}
-
-#calendarioContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
 }
 
 .dia {
